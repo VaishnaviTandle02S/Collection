@@ -103,22 +103,37 @@ public class MainApplication {
                 System.out.print("ID: "); int id = sc.nextInt();
                 sc.nextLine();
                 System.out.print("Name: "); String name = sc.nextLine();
-                System.out.print("Phone: "); String phone = sc.nextLine();
+                System.out.print("Phone (10 digits): "); String phone = sc.nextLine();
+
                 customerService.addCustomer(new Customer(id, name, phone));
             }
             case 2 -> customerService.getAllCustomers().values().forEach(System.out::println);
+
             case 3 -> {
-                System.out.print("ID: "); int id = sc.nextInt();
+                System.out.print("ID: ");
+                int id = sc.nextInt();
                 sc.nextLine();
-                System.out.print("New Name: "); String name = sc.nextLine();
-                System.out.print("New Phone: "); String phone = sc.nextLine();
-                customerService.updateCustomer(id, name, phone);
+
+                Customer existing = customerService.getAllCustomers().get(id);
+                if (existing == null) {
+                    throw new ResourceNotFoundException("Customer not found!");
+                }
+
+                // Restrict name update
+                System.out.println("Name cannot be updated. Existing name: " + existing.getName());
+
+                System.out.print("New Phone (10 digits): ");
+                String phone = sc.nextLine();
+
+                customerService.updateCustomer(id, existing.getName(), phone);
             }
+
             case 4 -> {
                 System.out.print("Enter ID: ");
                 customerService.deleteCustomer(sc.nextInt());
             }
-            default -> throw new MenuSelectionException("Invalid selection!");
+
+            default -> throw new MenuSelectionException("Invalid customer menu selection!");
         }
     }
 
@@ -143,27 +158,35 @@ public class MainApplication {
                 orderService.createOrder(orderId, custId);
             }
             case 2 -> orderService.getAllOrders().values().forEach(System.out::println);
+
             case 3 -> {
                 System.out.print("Order ID: "); int oid = sc.nextInt();
                 System.out.print("Menu Item ID: "); int mid = sc.nextInt();
+
                 MenuItem item = menuService.getAllMenuItems().stream()
                         .filter(i -> i.getId() == mid).findFirst()
                         .orElseThrow(() -> new ResourceNotFoundException("Menu item not found!"));
+
                 orderService.addItemToOrder(oid, item);
             }
+
             case 4 -> {
                 System.out.print("Order ID: "); int oid = sc.nextInt();
                 System.out.print("Menu Item ID: "); int mid = sc.nextInt();
+
                 MenuItem item = menuService.getAllMenuItems().stream()
                         .filter(i -> i.getId() == mid).findFirst()
                         .orElseThrow(() -> new ResourceNotFoundException("Menu item not found!"));
+
                 orderService.removeItemFromOrder(oid, item);
             }
+
             case 5 -> {
                 System.out.print("Order ID: ");
                 orderService.cancelOrder(sc.nextInt());
             }
-            default -> throw new MenuSelectionException("Invalid selection!");
+
+            default -> throw new MenuSelectionException("Invalid order menu selection!");
         }
     }
 }
