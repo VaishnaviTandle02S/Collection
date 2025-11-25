@@ -1,63 +1,67 @@
 package DSA.Assignment2;
 
 public class StackArray {
-    int size;        // maximum size
-    int top;         // index of top element
-    int[] stack;     // array to store stack elements
+    int[] stack;
+    int top;
 
-    // constructor
+    //constructor to initialize non-static variables
     public StackArray(int size) {
-        this.size = size;
         stack = new int[size];
         top = -1;
     }
 
-    // push operation
+    //push operation
     public void push(int x) {
-        if (top == size - 1) {
-            System.out.println("Stack Overflow");
-            return;
+        if (isFull()) {
+            System.out.println("Cannot push — Stack Overflow");
         }
         stack[++top] = x;
         System.out.println(x + " pushed");
     }
 
-    // pop operation
+    //pop operation
     public int pop() {
-        if (top == -1) {
-            System.out.println("Stack Underflow");
+        if (isEmpty()) {
+            System.out.println("Cannot pop — Stack is empty");
             return -1;
         }
         return stack[top--];
     }
 
-    // peek operation
+    //peek operation
     public int peek() {
-        if (top == -1) {
-            System.out.println("Stack is empty");
+        if (isEmpty()) {
+            System.out.println("Cannot peek — Stack is empty");
             return -1;
         }
         return stack[top];
     }
 
-    // check empty
+    //To check stack is Empty or not
     public boolean isEmpty() {
         return top == -1;
     }
 
-    // main method to test
-    public static void main(String[] args) {
-        StackArray s = new StackArray(5);
+    //To check stack is Full or not
+    public boolean isFull() {
+        return top == stack.length - 1;
+    }
 
-        System.out.println("Popped: " + s.pop());
+    // main
+    public static void main(String[] args) {
+        StackArray s = new StackArray(3);
+
+        System.out.println("Is Empty? " + s.isEmpty());
         s.push(10);
         s.push(20);
         s.push(30);
-
-        System.out.println("Top element: " + s.peek());
+        s.push(40); // overflow test
+        System.out.println("Peek: " + s.peek());
         System.out.println("Popped: " + s.pop());
         System.out.println("Popped: " + s.pop());
-
+        System.out.println("Popped: " + s.pop());
+        System.out.println("Popped: " + s.pop()); // underflow test
+        System.out.println("Peek: " + s.peek());
         System.out.println("Is Empty? " + s.isEmpty());
     }
 }

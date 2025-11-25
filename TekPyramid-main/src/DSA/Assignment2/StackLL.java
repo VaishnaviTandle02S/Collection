@@ -1,9 +1,17 @@
 package DSA.Assignment2;
+
 public class StackLL {
+
+    //inner class
     static class Node {
         int data;
         Node next;
-        Node(int d){ data = d; }
+
+        //inner class constructor
+        Node(int d){
+            data = d;
+        }
+
     }
 
     Node top = null;

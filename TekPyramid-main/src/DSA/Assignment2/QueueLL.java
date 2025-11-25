@@ -2,10 +2,16 @@ package DSA.Assignment2;
 
 public class QueueLL {
 
+    //inner class
     static class Node {
         int data;
         Node next;
-        Node(int d){ data = d; }
+
+        //inner class constructor
+        Node(int d) {
+            data = d;
+        }
+
     }
 
     Node front = null, rear = null;
@@ -20,14 +26,15 @@ public class QueueLL {
         }
     }
 
-    public int dequeue(){
-        if(front == null){
+    public int dequeue() {
+        if (front == null) {
             System.out.println("Queue Empty");
             return -1;
         }
         int val = front.data;
         front = front.next;
-        if(front == null) rear = null;
+        if (front == null)
+            rear = null;
         return val;
     }
 

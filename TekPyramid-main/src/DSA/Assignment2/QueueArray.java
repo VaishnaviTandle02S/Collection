@@ -2,22 +2,20 @@ package DSA.Assignment2;
 
 public class QueueArray {
     int[] queue;
-    int front;
     int rear;
-    int size;
+    int front;
 
+    //constructor to initialize non-static variables
     public QueueArray(int size) {
-        this.size = size;
         queue = new int[size];
-        front = 0;
         rear = -1;   // queue is empty
+        front = 0;
     }
 
-    // enqueue
+    //Enqueue operation
     public void enqueue(int x) {
-        if (rear == size - 1) {
-            System.out.println("Queue Full");
-            return;
+        if (isFull()) {
+            System.out.println("Cannot Enqueue — Queue Full");
         }
         queue[++rear] = x;
         System.out.println(x + "  enqueued");
@@ -25,38 +23,47 @@ public class QueueArray {
 
     // dequeue
     public int dequeue() {
-        if (front > rear) {
-            System.out.println("Queue Empty");
+        if (isEmpty()) {
+            System.out.println("Cannot dequeue — Queue is Empty");
             return -1;
         }
         return queue[front++];  // move front forward
     }
 
-    // peek
+    // peek operation
     public int peek() {
-        if (front > rear) {
+        if (isEmpty()) {
             System.out.println("Queue Empty");
             return -1;
         }
         return queue[front];
     }
 
-    // is empty
+    // To check queue is Empty or not
     public boolean isEmpty() {
         return front > rear;
     }
 
+    //To check stack is Full or not
+    public boolean isFull() {
+        return rear == queue.length - 1;
+    }
+
     // main
     public static void main(String[] args) {
-        QueueArray q = new QueueArray(5);
+        QueueArray q = new QueueArray(3);
 
+        System.out.println("Is Empty? " + q.isEmpty());
         q.enqueue(10);
         q.enqueue(20);
         q.enqueue(30);
-
+        q.enqueue(40);// overflow test
         System.out.println("Front: " + q.peek());
         System.out.println("Dequeued: " + q.dequeue());
         System.out.println("Dequeued: " + q.dequeue());
+        System.out.println("Dequeued: " + q.dequeue());
+        System.out.println("Dequeued: " + q.dequeue());// underflow test
+        System.out.println("Front: " + q.peek());
         System.out.println("Is Empty? " + q.isEmpty());
     }
 }

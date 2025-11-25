@@ -1,4 +1,5 @@
 package Threads;
+
 class CookingJob implements Runnable {
     private String task;
 
